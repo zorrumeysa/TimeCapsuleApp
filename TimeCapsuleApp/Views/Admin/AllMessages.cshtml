@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TimeCapsuleApp.MESSAGES>
+
+@{
+    ViewBag.Title = "Tüm Mesajlar";
+}
+
+<h2>Tüm Kullanıcı Mesajları</h2>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Kullanıcı</th>
+        <th>Mesaj</th>
+        <th>Resim</th>
+        <th>Kilit Tarihi</th>
+        <th>Oluşturulma</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.USERS.Username</td>
+            <td>
+                @if (item.LockedUntil > DateTime.Now)
+                {
+                    @:Bu mesaj @item.LockedUntil.ToShortDateString() tarihine kadar kilitli.
+                }
+                else
+                {
+                    @item.MessageText
+                }
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImagePath))
+                {
+                    <img src="@item.ImagePath" style="max-width: 150px;" />
+                }
+                else
+                {
+                    @:Yok
+                }
+            </td>
+            <td>@item.LockedUntil.ToShortDateString()</td>
+            <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+        </tr>
+    }
+</table>

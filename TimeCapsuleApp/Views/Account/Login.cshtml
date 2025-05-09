@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Giriş Yap";
+}
+
+<h2 class="text-center my-4">Giriş Yap</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="form-container">
+    @using (Html.BeginForm())
+    {
+        <div class="mb-3">
+            <label for="username" class="form-label">Kullanıcı Adı</label>
+            @Html.TextBox("username", null, new { @class = "form-control", @placeholder = "Kullanıcı adınızı girin" })
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Şifre</label>
+            @Html.Password("password", null, new { @class = "form-control", @placeholder = "Şifrenizi girin" })
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
+    }
+
+    <div class="text-center mt-3">
+        @Html.ActionLink("Kayıt Ol", "Register", "Account", null, new { @class = "btn btn-secondary w-100" })
+    </div>
+</div>

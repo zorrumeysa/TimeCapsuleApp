@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TimeCapsuleApp.MESSAGES>
+
+@{
+    ViewBag.Title = "Mesajlarım";
+}
+
+<h2 class="text-center my-4">Mesajlarım</h2>
+
+<div class="text-end mb-3">
+    @Html.ActionLink("Yeni Mesaj Ekle", "Create", "Message", null, new { @class = "btn btn-primary" })
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <meta http-equiv="refresh" content="5">
+        <thead>
+            <tr>
+                <th>Mesaj</th>
+                <th>Resim</th>
+                <th>Kilit Tarihi</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.LockedUntil > DateTime.Now)
+                        {
+                            <span class="locked">Bu mesaj @item.LockedUntil.ToString("dd.MM.yyyy - HH:mm") tarihine kadar kilitli.</span>
+                        }
+                        else
+                        {
+                            @item.MessageText
+                        }
+                    </td>
+                    <td>
+                        @if (item.LockedUntil > DateTime.Now)
+                        {
+                            <span class="locked">Görsel kilitli.</span>
+                        }
+                        else if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            var extension = System.IO.Path.GetExtension(item.ImagePath).ToLower();
+
+                            if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif")
+                            {
+                                <img src="@Url.Content(item.ImagePath)" style="max-width: 150px;" />
+                            }
+                            else
+                            {
+                                <a href="@Url.Content(item.ImagePath)" target="_blank" class="btn btn-secondary btn-sm">Dosyayı Görüntüle</a>
+                            }
+                        }
+                        else
+                        {
+                            @:Yok
+                        }
+                    </td>
+                    <td>@item.LockedUntil.ToShortDateString()</td>
+                    <td>
+                        @Html.ActionLink("Sil", "Delete", "Message", new { id = item.MessageId }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Bu mesajı silmek istediğinize emin misiniz?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

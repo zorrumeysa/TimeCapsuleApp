@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Yeni Mesaj Ekle";
+}
+
+<h2 class="text-center my-4">Yeni Mesaj Ekle</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="form-container">
+    @using (Html.BeginForm("Create", "Message", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="mb-3">
+            <label class="form-label">Mesajınız</label>
+            @Html.TextArea("MessageText", new { @class = "form-control", rows = 5, required = "required" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Kilit Tarihi</label>
+            @Html.TextBox("LockedUntil", "", new { @type = "datetime-local", @class = "form-control", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Resim (isteğe bağlı)</label>
+            <input type="file" name="ImageFile" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mesajı şu e-posta adresine de gönder (isteğe bağlı)</label>
+            <input type="email" name="ReceiverEmail" class="form-control" placeholder="ornek@eposta.com" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Kaydet</button>
+    }
+</div>
